@@ -2,11 +2,11 @@
 
 This a tiny library, intended to be used with OpenResty applications, when
 you need to execute a subprocess (or shell command). It works similar to
-*os.execute* and *io.popen*, except that it is completely non-blocking, and
+**os.execute** and **io.popen**, except that it is completely non-blocking, and
 therefore is safe to use even for commands that take long time to complete.
 
 The library depends on a daemon component that you would need to run
-on your webserver - sockproc. The basic idea is that the shell library
+on your webserver - **sockproc**. The basic idea is that the shell library
 connects to the unix domain socket of sockproc daemon, sends the command
 along with any input data that the child program is expecting, and then
 reads back the exit code, output stream data, and error stream data of
@@ -25,7 +25,7 @@ Make sure to have sockproc running and listenning on a UNIX domain socket:
 
 In your OpenResty config:
 
-    location /test_me {
+    location /test {
         content_by_lua '
             local shell = require("resty.shell")
             local status, out, err = shell.execute("uname -a")
