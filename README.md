@@ -1,17 +1,18 @@
 ## Introduction
 
 This a tiny library, intended to be used with OpenResty applications, when
-you need to execute a subprocess (or shell command). It works similar to
+you need to execute a subprocess (or shell command). It works similarly to
 **os.execute** and **io.popen**, except that it is completely non-blocking, and
 therefore is safe to use even for commands that take long time to complete.
 
 The library depends on a daemon component that you would need to run
-on your webserver - **sockproc**. The basic idea is that the shell library
-connects to the unix domain socket of sockproc daemon, sends the command
-along with any input data that the child program is expecting, and then
+on your webserver - [**sockproc**](https://github.com/juce/sockproc). The basic 
+idea is that the shell library connects to the unix domain socket of sockproc daemon, 
+sends the command along with any input data that the child program is expecting, and then
 reads back the exit code, output stream data, and error stream data of
-the child process. Because we use co-socket API, provided by ngx-lua
-module, the nginx reactor is never blocked
+the child process. Because we use co-socket API, provided by
+[lua-nginx-module](https://github.com/chaoslawful/lua-nginx-module),
+the nginx reactor is never blocked.
 
 More info on sockproc server, including complete source code here:
 https://github.com/juce/sockproc
