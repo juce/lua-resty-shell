@@ -22,7 +22,7 @@ https://github.com/juce/sockproc
 
 Make sure to have sockproc running and listenning on a UNIX domain socket:
 
-    $ ./sockproc /tmp/shell.sock
+    $ ./sockproc /tmp/hello.sock
 
 In your OpenResty config:
 
