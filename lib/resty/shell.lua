@@ -1,10 +1,10 @@
 -- Copyright (C) 2014 Anton Jouline (juce)
 
 
-local format   = string.format
-local match    = string.match
-local find     = string.find
-local tcp      = ngx.socket.tcp
+local format = string.format
+local match = string.match
+local find = string.find
+local tcp = ngx.socket.tcp
 local tonumber = tonumber
 
 
@@ -15,13 +15,9 @@ local shell = {
 local default_socket = "unix:/tmp/shell.sock"
 
 function shell.execute(cmd, args)
-    local timeout    = args and args.timeout
+    local timeout = args and args.timeout
     local input_data = args and args.data or ""
-    local socket     = args and args.socket or default_socket
-
-    local keepalive           = args and args.keepalive or true
-    local keepalive_timeout   = args and args.keepalive_timeout or 10000
-    local keepalive_pool_size = args and args.keepalive_pool_size or 100
+    local socket = args and args.socket or default_socket
 
     local is_tcp = true
     if (find(socket, "unix:", 1, true)) then
@@ -64,11 +60,7 @@ function shell.execute(cmd, args)
         n = tonumber(data) or 0
         local err_bytes = n > 0 and sock:receive(n) or nil
 
-        if (is_tcp and keepalive) then
-            sock:setkeepalive(keepalive_timeout, keepalive_pool_size)
-        else
-            sock:close()
-        end
+        sock:close()
 
         return tonumber(code), out_bytes, err_bytes
     end

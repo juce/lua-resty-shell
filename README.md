@@ -35,16 +35,10 @@ In your OpenResty config:
             --
             -- timeout: timeout for the socket connection
             --
-            -- input_data: STDIN to send to sockproc
+            -- data: STDIN to send to sockproc
             --
             -- socket: either a table containg the elements 'host' and 'port' for tcp connections,
             -- or a string defining a unix socket
-            --
-            -- keepalive: boolean value to set tcp keepalive for tcp connections
-            --
-            -- keepalive_timeout: length to hold tcp keepalives
-            --
-            -- keepalive_pool_size: size of tcp keepalive pool
             local args = {
                 socket = "unix:/tmp/shell.sock",
             }
