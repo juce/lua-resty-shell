@@ -19,10 +19,19 @@ function shell.execute(cmd, args)
     local input_data = args and args.data or ""
     local socket = args and args.socket or default_socket
 
-    local is_tcp = true
-    if (find(socket, "unix:", 1, true)) then
-        is_tcp = false
-    end
+    local is_tcp
+
+	if (type(socket) == 'table') then
+		if (socket.host and socket.port) then
+			is_tcp = true
+		else
+			return -3, nil, 'invalid socket table options passed'
+		end
+	elseif (type(socket) == 'string') then
+		is_tcp = false
+	else
+		return -3, nil, 'socket was not a table with tcp options or a string'
+	end
 
     local sock = tcp()
     local ok, err
