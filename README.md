@@ -12,7 +12,7 @@ sends the command along with any input data that the child program is expecting,
 reads back the exit code, output stream data, and error stream data of
 the child process. Because we use co-socket API, provided by
 [lua-nginx-module](https://github.com/chaoslawful/lua-nginx-module),
-the nginx reactor is never blocked.
+the nginx worker is never blocked.
 
 More info on sockproc server, including complete source code here:
 https://github.com/juce/sockproc
@@ -29,7 +29,21 @@ In your OpenResty config:
     location /test {
         content_by_lua '
             local shell = require("resty.shell")
-            local status, out, err = shell.execute("uname -a")
+
+
+            -- define a table to hold arguments with the following elements:
+            --
+            -- timeout: timeout for the socket connection
+            --
+            -- data: STDIN to send to sockproc
+            --
+            -- socket: either a table containg the elements 'host' and 'port' for tcp connections,
+            -- or a string defining a unix socket
+            local args = {
+                socket = "unix:/tmp/shell.sock",
+            }
+
+            local status, out, err = shell.execute("uname -a", args)
 
             ngx.header.content_type = "text/plain"
             ngx.say("Hello from:\n" .. out)
