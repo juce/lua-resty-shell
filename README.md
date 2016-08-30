@@ -11,7 +11,7 @@ idea is that the shell library connects to the unix domain socket of sockproc da
 sends the command along with any input data that the child program is expecting, and then
 reads back the exit code, output stream data, and error stream data of
 the child process. Because we use co-socket API, provided by
-[lua-nginx-module](https://github.com/chaoslawful/lua-nginx-module),
+[lua-nginx-module](https://github.com/openresty/lua-nginx-module),
 the nginx worker is never blocked.
 
 More info on sockproc server, including complete source code here:
@@ -29,7 +29,6 @@ In your OpenResty config:
     location /test {
         content_by_lua '
             local shell = require("resty.shell")
-
 
             -- define a table to hold arguments with the following elements:
             --

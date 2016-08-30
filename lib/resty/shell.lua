@@ -9,10 +9,11 @@ local tonumber = tonumber
 
 
 local shell = {
-    _VERSION = '0.01'
+    _VERSION = '0.02'
 }
 
 local default_socket = "unix:/tmp/shell.sock"
+
 
 function shell.execute(cmd, args)
     local timeout = args and args.timeout
@@ -20,23 +21,18 @@ function shell.execute(cmd, args)
     local socket = args and args.socket or default_socket
 
     local is_tcp
-
-	if (type(socket) == 'table') then
-		if (socket.host and socket.port) then
-			is_tcp = true
-		else
-			return -3, nil, 'invalid socket table options passed'
-		end
-	elseif (type(socket) == 'string') then
-		is_tcp = false
-	else
-		return -3, nil, 'socket was not a table with tcp options or a string'
-	end
+    if type(socket) == 'table' then
+        if socket.host and tonumber(socket.port) then
+            is_tcp = true
+        else
+            error('socket table must have host and port keys')
+        end
+    end
 
     local sock = tcp()
     local ok, err
-    if (is_tcp) then
-        ok, err = sock:connect(socket.host, socket.port)
+    if is_tcp then
+        ok, err = sock:connect(socket.host, tonumber(socket.port))
     else
         ok, err = sock:connect(socket)
     end
