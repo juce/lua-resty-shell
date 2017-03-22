@@ -17,6 +17,7 @@ build = {
   type          = "command",
   build_command = [[
        git submodule init \
+    && git submodule update \
     && cd sockproc \
     && git checkout master \
     && git pull \
