@@ -14,8 +14,20 @@ dependencies = {
 }
 
 build = {
-  type    = "builtin",
-  modules = {
-    ["resty.shell"] = "lib/resty/shell.lua",
+  type          = "command",
+  build_command = [[
+       git submodule init \
+    && cd sockproc \
+    && git checkout master \
+    && git pull \
+    && make
+  ]],
+  install = {
+    lua = {
+      ["resty.shell"] = "lib/resty/shell.lua",
+    },
+    bin = {
+      ["sockproc"] = "sockproc/sockproc",
+    }
   },
 }
