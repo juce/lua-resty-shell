@@ -1,0 +1,3 @@
+[submodule "sockproc"]
+	path = sockproc
+	url = https://github.com/juce/sockproc.git
