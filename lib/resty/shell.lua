@@ -7,14 +7,29 @@ local find = string.find
 local tcp = ngx.socket.tcp
 local tonumber = tonumber
 
-
+--- @module RestyShell
 local shell = {
     _VERSION = '0.02'
 }
 
 local default_socket = "unix:/tmp/shell.sock"
 
+----
+--- @class ShellArguments
+--- @field timeout number
+--- @field data string
+--- @field socket string
+----
 
+----
+--- Executes the command given command using sockproc daemon.
+--- This command is non-blocking
+--- Returns status code, stdout, stderr
+---
+--- @param cmd string
+--- @param args ShellArguments
+--- @return number, string, string
+----
 function shell.execute(cmd, args)
     local timeout = args and args.timeout
     local input_data = args and args.data or ""
