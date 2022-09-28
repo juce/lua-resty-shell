@@ -36,7 +36,7 @@ In your OpenResty config:
             --
             -- data: STDIN to send to sockproc
             --
-            -- socket: either a table containg the elements 'host' and 'port' for tcp connections,
+            -- socket: either a table containg the elements "host" and "port" for tcp connections,
             -- or a string defining a unix socket
             local args = {
                 socket = "unix:/tmp/shell.sock",
